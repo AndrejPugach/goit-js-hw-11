@@ -1,73 +1,48 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
-let lightbox;
-let loaderEl;
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 
-export function createGallery(images = []) {
 
-  let gallery = document.querySelector('#gallery');
+let galleryElem = document.querySelector('.gallery');
+let lightbox = new SimpleLightbox(".gallery a");
 
-  if (!gallery) {
-    gallery = document.createElement('div');
-    gallery.id = 'gallery';
-    gallery.classList.add('gallery');
-    document.body.appendChild(gallery); 
-  }
 
-  const markup = images
-    .map(
-      ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
-      <div class="photo-card">
-        <a class="gallery__item" href="${largeImageURL}">
-          <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" />
-        </a>
-        <ul class="info">
-          <li><b>Likes:</b> ${likes}</li>
-          <li><b>Views:</b> ${views}</li>
-          <li><b>Comments:</b> ${comments}</li>
-          <li><b>Downloads:</b> ${downloads}</li>
-        </ul>
-      </div>`
-    )
-    .join('');
+export function createGallery(images) {
+    const markup = images
+        .map((image) => 
+            `<li class="gallery-item">
+            <a class="gallery-link" href="${image.largeImageURL}">
+            <img
+            class="gallery-image"
+            src="${image.webformatURL}"
+            data-source="${image.largeImageURL}"
+            alt="${image.tags}"
+            />
+            <div class = "gallery-box">
+            <p class="gallery-box-text">Likes <span class="gallery-box-span">${image.likes}</span></p>
+            <p class="gallery-box-text">Views <span class="gallery-box-span">${image.views}</span></p>
+            <p class="gallery-box-text">Comments <span class="gallery-box-span">${image.comments}</span></p>
+            <p class="gallery-box-text">Downloads <span class="gallery-box-span">${image.downloads}</span></p>
+            </div>
+            </a>
+            </li>`
+        )
+        .join('');
 
-  gallery.insertAdjacentHTML('beforeend', markup);
-
-  if (!lightbox) {
-    lightbox = new SimpleLightbox('#gallery a', {
-      captionsData: 'alt',
-      captionDelay: 250,
-    });
-  } else {
+    galleryElem.insertAdjacentHTML('beforeend', markup);
     lightbox.refresh();
-  }
 }
+
 
 
 export function clearGallery() {
-  const gallery = document.querySelector('#gallery');
-  if (gallery) gallery.innerHTML = '';
-}
-
-
-function ensureLoader() {
-  if (!loaderEl) {
-    loaderEl = document.createElement('div');
-    loaderEl.classList.add('loader', 'is-hidden');
-    loaderEl.innerHTML = `<span class="loader__spinner"></span>`;
-    document.querySelector('form').insertAdjacentElement('afterend', loaderEl);
-  }
+    galleryElem.innerHTML = '';
 }
 
 export function showLoader() {
-  ensureLoader();
-  loaderEl.classList.remove('is-hidden');
+    document.querySelector('.loader').classList.remove('is-hidden');
 }
 
 export function hideLoader() {
-  if (loaderEl) {
-    loaderEl.classList.add('is-hidden');
-  }
+    document.querySelector('.loader').classList.add('is-hidden');
 }
