@@ -1,13 +1,17 @@
-import{a as u,S as y,i as c}from"./assets/vendor-BK_rxH-O.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))i(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const n of t.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&i(n)}).observe(document,{childList:!0,subtree:!0});function a(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function i(e){if(e.ep)return;e.ep=!0;const t=a(e);fetch(e.href,t)}})();u.defaults.baseURL="https://pixabay.com/api/";const h="51662095-362d68f1fb432ef34c7441ea2";function b(r){return u.get("",{params:{key:h,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0}})}let d,s;function L(r=[]){let o=document.querySelector("#gallery");o||(o=document.createElement("div"),o.id="gallery",o.classList.add("gallery"),document.body.appendChild(o));const a=r.map(({webformatURL:i,largeImageURL:e,tags:t,likes:n,views:m,comments:p,downloads:g})=>`
-      <div class="photo-card">
-        <a class="gallery__item" href="${e}">
-          <img class="gallery__image" src="${i}" alt="${t}" loading="lazy" />
-        </a>
-        <ul class="info">
-          <li><b>Likes:</b> ${n}</li>
-          <li><b>Views:</b> ${m}</li>
-          <li><b>Comments:</b> ${p}</li>
-          <li><b>Downloads:</b> ${g}</li>
-        </ul>
-      </div>`).join("");o.insertAdjacentHTML("beforeend",a),d?d.refresh():d=new y("#gallery a",{captionsData:"alt",captionDelay:250})}function v(){const r=document.querySelector("#gallery");r&&(r.innerHTML="")}function S(){s||(s=document.createElement("div"),s.classList.add("loader","is-hidden"),s.innerHTML='<span class="loader__spinner"></span>',document.querySelector("form").insertAdjacentElement("afterend",s))}function _(){S(),s.classList.remove("is-hidden")}function q(){s&&s.classList.add("is-hidden")}const f=document.querySelector("form"),l=f.querySelector('button[type="submit"]');f.addEventListener("submit",r=>{r.preventDefault();const a=new FormData(r.target).get("searchText").trim();if(!a){c.error({position:"topRight",title:"Ерор",message:"Ви нічого не ввели!"});return}v(),_(),l.disabled=!0,b(a).then(i=>{const e=i.data.hits;if(!e.length){c.error({position:"topRight",title:"Немає результатів",message:"Нічого не знайдено"}),l.disabled=!1,l.textContent=oldText;return}L(e)}).catch(i=>{console.log(i),c.error({position:"topRight",title:i,message:"Помилка"})}).then(()=>{q(),l.disabled=!1,r.target.reset()})});
+import{a as c,S as u,i as l}from"./assets/vendor-5YrzWRhu.js";(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const o of t.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&n(o)}).observe(document,{childList:!0,subtree:!0});function r(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function n(e){if(e.ep)return;e.ep=!0;const t=r(e);fetch(e.href,t)}})();const d=c.create({baseURL:"https://pixabay.com/api/",params:{key:"51736098-e561806c369733f177830f298",image_type:"photo",orientation:"horizontal",safesearch:!0}});function p(a){return d.get("",{params:{q:a}}).then(s=>s.data)}let i=document.querySelector(".gallery"),f=new u(".gallery a");function y(a){const s=a.map(r=>`<li class="gallery-item">
+            <a class="gallery-link" href="${r.largeImageURL}">
+            <img
+            class="gallery-image"
+            src="${r.webformatURL}"
+            data-source="${r.largeImageURL}"
+            alt="${r.tags}"
+            />
+            <div class = "gallery-box">
+            <p class="gallery-box-text">Likes <span class="gallery-box-span">${r.likes}</span></p>
+            <p class="gallery-box-text">Views <span class="gallery-box-span">${r.views}</span></p>
+            <p class="gallery-box-text">Comments <span class="gallery-box-span">${r.comments}</span></p>
+            <p class="gallery-box-text">Downloads <span class="gallery-box-span">${r.downloads}</span></p>
+            </div>
+            </a>
+            </li>`).join("");i.insertAdjacentHTML("beforeend",s),f.refresh()}function m(){i.innerHTML=""}function g(){document.querySelector(".loader").classList.remove("is-hidden")}function h(){document.querySelector(".loader").classList.add("is-hidden")}const b=document.querySelector(".form");b.addEventListener("submit",async a=>{a.preventDefault();const s=a.target.elements.searchText.value.trim();if(s===""){l.warning({title:"Warning",message:"Empty input field"});return}m(),g();try{const r=await p(s);r.hits.length===0?l.error({message:"Sorry, there are no images matching your search query. Please try again!"}):y(r.hits)}catch{l.error({message:"An error occurred while fetching images. Please try again."})}finally{h()}});
 //# sourceMappingURL=index.js.map
